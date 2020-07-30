@@ -1,0 +1,4 @@
+#! /bin/bash
+echo "Please type the location of booltext.py:"
+read location
+echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" > ~/.bash_aliases

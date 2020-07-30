@@ -9,10 +9,10 @@ You will use the command line to run btxt, with the command ```btxt btxt [FILE]`
 BTXT files have .btxt as the extension.
 
 If using linux with BTXT, edit the ~/.bash_aliases file and insert the following code:
-If you do not have a ~/.bash_aliases file, you need to make one.
 ```shell
 btxt = { echo "$1" > .tmp_btxt && python3 [LOCATION OF booltext.py]; }
 ```
+If you do not have a ~/.bash_aliases file, make one.
 
 This is a sample btxt file:
 ```btxt

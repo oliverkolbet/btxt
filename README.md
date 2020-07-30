@@ -4,7 +4,7 @@ BTXT is a a half-programming language that uses three symbols separated by comma
 It also uses keys that can change the formatting of the output and push comments or commands.
 
 to run BTXT you will need to have python3.7 installed.
-You will use the command line to run btxt.
+You will use the command line to run btxt, with the command ```btxt btxt [FILE]```
 
 BTXT files have .btxt as the extension.
 

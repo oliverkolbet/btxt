@@ -2,5 +2,6 @@
 location="$(pwd)/booltext.py"
 echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" >> ~/.bash_aliases
 echo "alias btxtpy='$location'" >> ~/.bash_aliases
+bash ~/.bash_aliases
 echo "Running example.btxt..."
 python3 booltext.py

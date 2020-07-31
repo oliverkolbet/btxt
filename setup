@@ -11,6 +11,7 @@ echo "if [ -f ~/.bash_aliases ]; then" >> ~/.bash_profile
 echo "source ~/.bash_aliases" >> ~/.bash_profile
 echo "fi" >> ~/.bash_profile
 echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" >> ~/.bash_aliases
+bash ~/.bash_profile
 ;;
 esac
 echo "example.btxt" > .tmp_btxt

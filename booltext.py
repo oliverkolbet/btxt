@@ -19,10 +19,10 @@ if mode == 'man':
 	if bsplit[1] != 'btxt':
 		print('Make sure that the file you are using is a .btxt file.')
 		exit()
-	file = open(bfile, 'r')
+	file = open(bfile, 'r+')
 	info = file.read()
 elif mode == 'auto':
-	file = open('.tmp_btxt', 'r')
+	file = open('.tmp_btxt', 'r+')
 	info = file.read().strip()
 	file = open(info, 'r')
 	info = file.read()
@@ -87,6 +87,14 @@ if '<C>' in info:
 	comment = comment.split(':')
 	if comment[0] == '>':
 		print(comment[1])
+	elif comment[0] == '!':
+		print(comment[1])
+		finfo = file.readlines()
+		finfo[cdex] = ''
+		finfo[cdex-1]=''
+		file.writelines(finfo)
+	elif comment[0] == '$':
+		os.system(comment[1])
 	del info[cdex]
 	info.remove('<C>')
 if '<COMMAND>' in info:

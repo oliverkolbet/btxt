@@ -103,6 +103,18 @@ if '<C>' in info:
 		os.system(comment[1])
 	del info[cdex]
 	info.remove('<C>')
+if '<LINK>' in info:
+	lkey=info.index('<LINK>')+1
+	def com(arg):
+		os.system('echo \"'+arg+'\" > .tmp_btxt && python3 \"$(cat ~/.btxt_locale)\"')
+	comm=True
+	infno=[]
+	for thang in info:
+		infno.append(thang)
+	del info[lkey]
+	info.remove('<LINK>')
+else:
+	comm=False
 if '<COMMAND>' in info:
 	cmkey = info.index('<COMMAND>')+1
 	cm = info[cmkey]
@@ -153,3 +165,5 @@ while i < (len(info)):
 		sleep(2.5)
 
 	i+=1
+if comm == True:
+	com(infno[lkey])

@@ -14,6 +14,7 @@ echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" >> ~/.bash_alia
 bash ~/.bash_profile
 ;;
 esac
+echo "$location" > ~/.btxt_locale
 echo "example.btxt" > .tmp_btxt
 echo "Running example.btxt..."
 python3 booltext.py

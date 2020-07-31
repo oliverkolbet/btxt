@@ -87,7 +87,7 @@ if '<C>' in info:
 	comment = comment.split(':')
 	if comment[0] == '>':
 		print(comment[1])
-	elif comment[0] == '!':
+	elif comment[0] == '*':
 		print(comment[1])
 		file=open(bfile, 'r')
 		finfo = file.read().strip()

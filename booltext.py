@@ -23,8 +23,8 @@ if mode == 'man':
 	info = file.read()
 elif mode == 'auto':
 	file = open('.tmp_btxt', 'r+')
-	info = file.read().strip()
-	file = open(info, 'r')
+	bfile = file.read().strip()
+	file = open(bfile, 'r')
 	info = file.read()
 	os.system('rm .tmp_btxt')
 info = info.split('\n')
@@ -89,10 +89,16 @@ if '<C>' in info:
 		print(comment[1])
 	elif comment[0] == '!':
 		print(comment[1])
-		finfo = file.readlines()
-		finfo[cdex] = ''
-		finfo[cdex-1]=''
-		file.writelines(finfo)
+		file=open(bfile, 'r')
+		finfo = file.read().strip()
+		finfo=finfo.split('\n')
+		del finfo[finfo.index('<C>') +1]
+		del finfo[finfo.index('<C>')]
+		file=open(bfile,'w')
+		file.writelines('\n'.join(finfo))
+		if len(comment) > 2:
+			if comment[2] == '$':
+				os.system(comment[1])
 	elif comment[0] == '$':
 		os.system(comment[1])
 	del info[cdex]

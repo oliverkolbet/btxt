@@ -1,19 +1,16 @@
 #! /bin/bash
 location="$(pwd)/booltext.py"
-case $(config.guess) in
-*linux*)
+if [ "$(umane -s)" == 'Linux' ]; then
 echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" >> ~/.bash_aliases
 echo "alias btxtpy='$location'" >> ~/.bash_aliases
 bash ~/.bash_aliases
-;;
-*apple-darwin*)
+elif [ '$(uname -s)' == 'Darwin' ]; then
 echo "if [ -f ~/.bash_aliases ]; then" >> ~/.bash_profile
 echo "source ~/.bash_aliases" >> ~/.bash_profile
 echo "fi" >> ~/.bash_profile
 echo "btxt() { echo \"\$1\" > .tmp_btxt && python3 $location; }" >> ~/.bash_aliases
 bash ~/.bash_profile
-;;
-esac
+fi
 echo "$location" > ~/.btxt_locale
 echo "example.btxt" > .tmp_btxt
 echo "Running example.btxt..."

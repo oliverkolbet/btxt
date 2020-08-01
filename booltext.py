@@ -32,110 +32,95 @@ info = info.split('\n')
 for line in info:
 	if line == '':
 		info.remove('')
-if '<RESET>' in info:
-	os.system('reset')
-	info.remove('<RESET>')
-if '<PINK>' in info:
-	print('\033[95m',end='')
-	info.remove('<PINK>')
-elif '<COLOR>' in info:
-	colordex = info.index('<COLOR>')+1
-	color=info[colordex]
-	if color in colors:
-		print(colors[color],end='')
-	del info[colordex]
-	info.remove('<COLOR>')
-if '<DELAY>' in info:
-	delay=True
-	info.remove('<DELAY>')
-else:
-	delay=False
-if '<$SHIFT>' in info:
-	bangkey = 'and'
-	andkey = 'or'
-	orkey = 'not'
-	info.remove('<$SHIFT>')
-elif '<$EXCLAMATION>' in info:
-	bangkey = 'UH OH!'
-	andkey = 'AND...'
-	orkey = 'OR?!'
-	info.remove('<$EXCLAMATION>')
-elif '<$KEYS>' in info:
-	keylo = info.index('<$KEYS>')+1
-	keys = info[keylo]
-	keys = keys.split('/')
-	bangkey=keys[0]
-	andkey=keys[1]
-	orkey=keys[2]
-	del info[keylo]
-	info.remove('<$KEYS>')
-else:
-	bangkey='not'
-	andkey='and'
-	orkey='or'
-if '<SEPARATOR>' in info:
-	bkey = info[info.index('<SEPARATOR>')+1]
-	del info[info.index(bkey)]
-	info.remove('<SEPARATOR>')
-else:
-	bkey='/'
-for line in info:
-	line = line.split(',')
-if '<C>' in info:
-	cdex = info.index('<C>')+1
-	comment = info[cdex]
-	comment = comment.split(':')
-	if comment[0] == '>':
-		print(comment[1])
-	elif comment[0] == '*':
-		print(comment[1])
-		file=open(bfile, 'r')
-		finfo = file.read().strip()
-		finfo=finfo.split('\n')
-		del finfo[finfo.index('<C>') +1]
-		del finfo[finfo.index('<C>')]
-		file=open(bfile,'w')
-		file.writelines('\n'.join(finfo))
-		if len(comment) > 2:
-			if comment[2] == '$':
-				os.system(comment[1])
-	elif comment[0] == '$':
-		os.system(comment[1])
-	del info[cdex]
-	info.remove('<C>')
-if '<LINK>' in info:
-	lkey=info.index('<LINK>')+1
-	def com(arg):
-		os.system('echo \"'+arg+'\" > .tmp_btxt && python3 \"$(cat ~/.btxt_locale)\"')
-	comm=True
-	infno=[]
-	for thang in info:
-		infno.append(thang)
-	del info[lkey]
-	info.remove('<LINK>')
-else:
-	comm=False
-if '<COMMAND>' in info:
-	cmkey = info.index('<COMMAND>')+1
-	cm = info[cmkey]
-	os.system(cm)
-	del info[cmkey]
-	info.remove('<COMMAND>')
-if '<OUTPUT>' in info:
-	output = True
-	okey = info.index('<OUTPUT>') + 1
-	ofile = info[okey]
-	del info[okey]
-	info.remove('<OUTPUT>')
-	fo = '\n'.join(info)
-	os.system('echo \"'+fo+'\" >> '+ofile)
-else:
-	output = False
-if '<SHOW>' in info:
-	print('---------TEXT:--------')
-	info.remove('<SHOW>')
-	print(info)
-	print('----------------------')
+for k in info:
+	if '<CLEAR>' in info:
+		os.system('clear')
+		info.remove('<CLEAR>')
+	if '<PINK>' in info:
+		print('\033[95m',end='')
+		info.remove('<PINK>')
+	elif '<COLOR' in k:
+		col=k.split('%')
+		color=col[1]
+		if color in colors:
+			print(colors[color],end='')
+		del info[info.index(col)]
+	if '<DELAY>' in info:
+		delay=True
+		info.remove('<DELAY>')
+	else:
+		delay=False
+	if '<$SHIFT>' in info:
+		bangkey = 'and'
+		andkey = 'or'
+		orkey = 'not'
+		info.remove('<$SHIFT>')
+	elif '<$EXCLAMATION>' in info:
+		bangkey = 'UH OH!'
+		andkey = 'AND...'
+		orkey = 'OR?!'
+		info.remove('<$EXCLAMATION>')
+	elif '<$KEYS' in k:
+		key=k.split('%')
+		bangkey=keys[1]
+		andkey=keys[2]
+		orkey=keys[3]
+		del info[info.index(key)]
+	else:
+		bangkey='not'
+		andkey='and'
+		orkey='or'
+	if '<SEPARATOR' in k:
+		se=k.split('%')
+		bkey=se[1]
+		del info[info.index(se)]
+	else:
+		bkey='/'
+	if '<C' in k:
+		comment=k.split('%')
+		if comment[1] == '>':
+			print(comment[2])
+		elif comment[1] == '*':
+			print(comment[2])
+			file=open(bfile, 'r')
+			finfo = file.read().strip()
+			finfo=finfo.split('\n')
+			finfo[finfo.index(k)]=''
+			file=open(bfile,'w')
+			file.writelines('\n'.join(finfo))
+			if len(comment) > 3:
+				if comment[3] == '$':
+					os.system(comment[1])
+		elif comment[1] == '$':
+			os.system(comment[1])
+		info.remove(k)
+	if '<LINK' in k:
+		lkey=k.split('%')
+		def com(arg):
+			os.system('echo \"'+arg+'\" > .tmp_btxt && python3 \"$(cat ~/.btxt_locale)\"')
+		comm=True
+		info.remove(k)
+	else:
+		comm=False
+	if '<COMMAND' in k:
+		cm=k.split('%')
+		os.system(cm[1])
+		info.remove(k)
+	if '<OUTPUT>' in k:
+		ouu=k.split('%')
+		info.remove(k)
+		ofile=ouu[1]
+		fo = '\n'.join(info)
+		os.system('echo \"'+fo+'\" >> '+ofile)
+	else:
+		output = False
+	for line in info:
+		line=line.split(',')
+	if '<SHOW>' in info:
+		print('---------TEXT:--------')
+		info.remove('<SHOW>')
+		print(info)
+		print('----------------------')
 i=0
 while i < (len(info)):
 	e=0
@@ -166,4 +151,5 @@ while i < (len(info)):
 
 	i+=1
 if comm == True:
-	com(infno[lkey])
+	com(lkey[1])
+
